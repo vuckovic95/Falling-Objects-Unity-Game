@@ -34,6 +34,7 @@ public class ItemGenerator : MonoBehaviour
     private List<GameObject> _items = new List<GameObject>();
     private List<Transform> _elementSpawners = new List<Transform>();
     private List<Transform> _elementSpawnersHelper = new List<Transform>();
+    private float _creationDelayFactor = 1f;
 
     private float RESOLUTION_FACTOR = 2.38f;
  
@@ -54,7 +55,8 @@ public class ItemGenerator : MonoBehaviour
     {
         Actions.StartGameAction += ResetAllItems;
         Actions.StartGameAction += StartSpawning;
-        SpawnItemAction += SpawnItemHelper;
+        SpawnItemAction += SpawnItem;
+        Actions.DecreaseCreationDelayFactorAction += DecreaseDelayCreationFactor;
     }
 
     private void PopulateElementSpawners()
@@ -83,6 +85,8 @@ public class ItemGenerator : MonoBehaviour
     {
         foreach (GameObject item in _items)
         {
+            item.GetComponent<Item>().CanMove = false;
+            item.transform.SetParent(_itemsHolder);
             item.SetActive(false);
         }
     }
@@ -132,7 +136,7 @@ public class ItemGenerator : MonoBehaviour
     }
 
 
-    private void SpawnItemHelper()
+    private void SpawnItem()
     {
         while (true)
         {
@@ -162,7 +166,7 @@ public class ItemGenerator : MonoBehaviour
         {
             t += Time.deltaTime;
             SpawnItemAction?.Invoke();
-            yield return new WaitForSeconds(UnityEngine.Random.Range(1, 4));
+            yield return new WaitForSeconds(UnityEngine.Random.Range(1, 4) * _creationDelayFactor);
         }
     }
 
@@ -176,5 +180,10 @@ public class ItemGenerator : MonoBehaviour
         float speed = UnityEngine.Random.Range(_minSpeed, _maxSpeed);
 
         item.Speed = speed;
+    }
+
+    private void DecreaseDelayCreationFactor()
+    {
+        _creationDelayFactor -= 0.05f;
     }
 }

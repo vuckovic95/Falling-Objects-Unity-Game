@@ -20,6 +20,9 @@ public class PlayGameDialog : DialogBase
     [BoxGroup("Text Fields")]
     [SerializeField]
     private TextMeshProUGUI _timeTxt;
+    [BoxGroup("Text Fields")]
+    [SerializeField]
+    private TextMeshProUGUI _scoreTxt;
 
     [BoxGroup("Arrows")]
     [SerializeField]
@@ -39,6 +42,7 @@ public class PlayGameDialog : DialogBase
     private void SubscribeToActions()
     {
         Actions.TimerChangedAction += UpdateTime;
+        Actions.IncreaseScoreAction += UpdateScore;
     }
 
     private void PauseClicked()
@@ -66,6 +70,11 @@ public class PlayGameDialog : DialogBase
     private void UpdateTime(int time)
     {
         _timeTxt.text = time.ToString();
+    }
+
+    private void UpdateScore(int score)
+    {
+        _scoreTxt.text = score.ToString();
     }
 
     public override void OnDialogOpened(ParameterSet parameters)

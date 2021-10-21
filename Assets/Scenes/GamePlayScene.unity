@@ -4107,6 +4107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pauseBtn: {fileID: 2068828301}
   _timeTxt: {fileID: 662594621}
+  _scoreTxt: {fileID: 1169604990}
   _rightArrow: {fileID: 1042144522}
   _leftArrow: {fileID: 2023131047}
 --- !u!1 &1653614868

@@ -7,8 +7,6 @@ using Zenject;
 public class DataManager : MonoBehaviour
 {
     #region Properties
-    public Action NewHighScoreAction;
-
     private int _score;
     private int _highScore;
 
@@ -27,7 +25,8 @@ public class DataManager : MonoBehaviour
 
     private void SubscribeToActions()
     {
-
+        Actions.ItemPickedAction += IncreaseScoreOnItemPicked;
+        Actions.StartGameAction += ResetScore;
     }
 
     private void SaveHighScore(int newHighScore)
@@ -35,7 +34,7 @@ public class DataManager : MonoBehaviour
         _highScore = newHighScore;
         PlayerPrefs.SetInt(HIGHSCORE_STRING, _highScore);
 
-        NewHighScoreAction?.Invoke();
+        Actions.NewHighScoreAction?.Invoke();
     }
     #endregion
 
@@ -45,9 +44,18 @@ public class DataManager : MonoBehaviour
         _score += scoreToIncrease;
     }
 
+    public void IncreaseScoreOnItemPicked(Item item)
+    {
+        _score += item.Object.GetPoints;
+
+        Actions.IncreaseScoreAction?.Invoke(_score);
+    }
+
     public void ResetScore()
     {
         _score = 0;
+
+        Actions.IncreaseScoreAction?.Invoke(_score);
     }
 
     public void CheckIfIsHighScore()

@@ -6,6 +6,10 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     private int _time;
+    private bool _canDecrease;
+
+    private int MODUO = 15;
+
     void Start()
     {
         SubscribeToActions();
@@ -32,6 +36,20 @@ public class TimeManager : MonoBehaviour
             t += Time.deltaTime;
             _time = (int)(time - t);
             Actions.TimerChangedAction?.Invoke(_time);
+
+            if (_time % MODUO == 0)
+            {
+                if (!_canDecrease)
+                {
+                    Actions.DecreaseCreationDelayFactorAction?.Invoke();
+                    _canDecrease = true;
+                }
+            }
+            else
+            {
+                _canDecrease = false;
+            }
+
             yield return new WaitForEndOfFrame();
         }
         action?.Invoke();

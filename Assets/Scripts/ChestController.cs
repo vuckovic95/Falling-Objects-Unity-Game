@@ -101,4 +101,18 @@ public class ChestController : MonoBehaviour
             _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
         }
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Item"))
+        {
+            Item itemComponent = collision.GetComponent<Item>();
+
+            Actions.ItemPickedAction?.Invoke(itemComponent);
+
+            collision.gameObject.SetActive(false);
+            itemComponent.CanMove = false;
+        }
+    }
 }

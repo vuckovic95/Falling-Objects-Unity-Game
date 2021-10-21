@@ -9,7 +9,10 @@ public static class Actions
     public static Action QuitGameAction;
     public static Action TimeIsUpAction;
     public static Action<int> TimerChangedAction;
-    public static Action<int> ItemPickedAction;
+    public static Action<Item> ItemPickedAction;
     public static Action HoldLeftArrowAction;
     public static Action HoldRightArrowAction;
+    public static Action DecreaseCreationDelayFactorAction;
+    public static Action NewHighScoreAction;
+    public static Action<int> IncreaseScoreAction;
 }

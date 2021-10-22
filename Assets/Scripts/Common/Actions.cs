@@ -16,4 +16,5 @@ public static class Actions
     public static Action IncreaseSpeedFactorAction;
     public static Action NewHighScoreAction;
     public static Action<int> IncreaseScoreAction;
+    public static Action<int> BonusPickedAction;
 }

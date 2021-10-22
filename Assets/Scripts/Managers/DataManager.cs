@@ -27,6 +27,8 @@ public class DataManager : MonoBehaviour
     {
         Actions.ItemPickedAction += IncreaseScoreOnItemPicked;
         Actions.StartGameAction += ResetScore;
+        Actions.BonusPickedAction += IncreaseScoreOnBonusPicked;
+        Actions.TimeIsUpAction += CheckIfIsHighScore;
     }
 
     private void SaveHighScore(int newHighScore)
@@ -47,6 +49,13 @@ public class DataManager : MonoBehaviour
     public void IncreaseScoreOnItemPicked(Item item)
     {
         _score += item.Object.GetPoints;
+
+        Actions.IncreaseScoreAction?.Invoke(_score);
+    }
+
+    private void IncreaseScoreOnBonusPicked(int bonus)
+    {
+        _score += bonus;
 
         Actions.IncreaseScoreAction?.Invoke(_score);
     }

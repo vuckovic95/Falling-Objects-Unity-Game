@@ -66,46 +66,53 @@ public class BonusManager : MonoBehaviour
 
     private void CalculateBonus()
     {
-        int sameCounter = 0;
-        int differentCounter = 0;
         int bonus = 0;
         States.ItemType currentType = new States.ItemType();
+        Dictionary<States.ItemType, int> dictionary = new Dictionary<States.ItemType, int>();
 
-        for (int i = 0; i < _pickedItemTypes.Count - 1; i++)
+        for (int i = 0; i < _pickedItemTypes.Count; i++)
         {
             if(i == 0)
             {
                 currentType = _pickedItemTypes[i];
+                dictionary.Add(_pickedItemTypes[i], 1);
             }
             else
             {
                 if (currentType == _pickedItemTypes[i])
-                {
-                    sameCounter++;
-                }
+                    dictionary[_pickedItemTypes[i]]++;
                 else
                 {
-                    differentCounter++;
-                    //currentType = 
+                    if(dictionary.ContainsKey(_pickedItemTypes[i]))
+                        dictionary[_pickedItemTypes[i]]++;
+
+                    else
+                        dictionary.Add(_pickedItemTypes[i], 1);
                 }
             }
         }
 
-        if(sameCounter == 5)
-        {
-            bonus = 40;
-            Actions.IncreaseScoreAction?.Invoke(bonus);
-        }
-        else if (sameCounter == 0)
-        {
-            bonus = 30;
-            Actions.IncreaseScoreAction?.Invoke(bonus);
-        }
-        //else if (sameCounter == 2 && di)
-        //{
+        //svi su isti
+        if(dictionary.Count == 1)
+            Actions.BonusPickedAction?.Invoke(40);
 
-        //}
-        
+        //svi su razliciti
+        else if(dictionary.Count == 5)
+            Actions.BonusPickedAction?.Invoke(30);
+
+        //2 i 3 ili 3 i 2
+        else if(dictionary.Count == 2)
+        {
+            int counter = 0;
+            foreach (var item in dictionary)
+            {
+                if (item.Value == 2 || item.Value == 3)
+                    counter++;
+            }
+            if(counter == 2)
+                Actions.BonusPickedAction?.Invoke(35);
+        }
+
         PopulateHelperSlotList();
     }
 }

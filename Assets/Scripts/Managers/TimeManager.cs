@@ -6,9 +6,11 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     private int _time;
-    private bool _canDecrease;
+    private bool _canDecreaseCreationDelayFactor;
+    private bool _canIncreaseSpeedFactor;
 
-    private int MODUO = 15;
+    private int DECREASE_MODUO = 15;
+    private int INCREASE_MODUO = 10;
 
     void Start()
     {
@@ -37,17 +39,30 @@ public class TimeManager : MonoBehaviour
             _time = (int)(time - t);
             Actions.TimerChangedAction?.Invoke(_time);
 
-            if (_time % MODUO == 0)
+            if (_time % DECREASE_MODUO == 0)
             {
-                if (!_canDecrease)
+                if (!_canDecreaseCreationDelayFactor)
                 {
                     Actions.DecreaseCreationDelayFactorAction?.Invoke();
-                    _canDecrease = true;
+                    _canDecreaseCreationDelayFactor = true;
                 }
             }
             else
             {
-                _canDecrease = false;
+                _canDecreaseCreationDelayFactor = false;
+            }
+
+            if (_time % INCREASE_MODUO == 0)
+            {
+                if (!_canIncreaseSpeedFactor)
+                {
+                    Actions.IncreaseSpeedFactorAction?.Invoke();
+                    _canIncreaseSpeedFactor = true;
+                }
+            }
+            else
+            {
+                _canIncreaseSpeedFactor = false;
             }
 
             yield return new WaitForEndOfFrame();

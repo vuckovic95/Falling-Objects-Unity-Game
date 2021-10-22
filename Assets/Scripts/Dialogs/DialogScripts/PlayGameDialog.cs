@@ -13,6 +13,13 @@ public class PlayGameDialog : DialogBase
     [Inject]
     DialogService _dialogService;
 
+    [BoxGroup("Bonus Properties")]
+    [SerializeField]
+    private GameObject _bonusPanel;
+    [BoxGroup("Bonus Properties")]
+    [SerializeField]
+    private TextMeshProUGUI _bonusTxt;
+
     [BoxGroup("Buttons")]
     [SerializeField]
     private Button _pauseBtn;

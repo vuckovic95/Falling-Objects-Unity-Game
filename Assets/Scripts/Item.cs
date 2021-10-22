@@ -11,12 +11,22 @@ public class Item : MonoBehaviour
     private bool _canMove;
     private Transform _transform;
 
+    private void Start()
+    {
+        SubscribeToActions();
+    }
+
     private void Update()
     {
         if (_canMove)
         {
             _transform.Translate(0, -_speed * Time.deltaTime, 0);
         }
+    }
+
+    private void SubscribeToActions()
+    {
+        Actions.TimeIsUpAction += () => { _canMove = false; };
     }
 
     public void SetProperties()

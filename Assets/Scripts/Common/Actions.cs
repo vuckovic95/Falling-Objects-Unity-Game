@@ -13,6 +13,7 @@ public static class Actions
     public static Action HoldLeftArrowAction;
     public static Action HoldRightArrowAction;
     public static Action DecreaseCreationDelayFactorAction;
+    public static Action IncreaseSpeedFactorAction;
     public static Action NewHighScoreAction;
     public static Action<int> IncreaseScoreAction;
 }

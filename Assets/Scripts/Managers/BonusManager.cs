@@ -91,7 +91,21 @@ public class BonusManager : MonoBehaviour
             }
         }
 
-        Actions.IncreaseScoreAction?.Invoke(bonus);
+        if(sameCounter == 5)
+        {
+            bonus = 40;
+            Actions.IncreaseScoreAction?.Invoke(bonus);
+        }
+        else if (sameCounter == 0)
+        {
+            bonus = 30;
+            Actions.IncreaseScoreAction?.Invoke(bonus);
+        }
+        //else if (sameCounter == 2 && di)
+        //{
+
+        //}
+        
         PopulateHelperSlotList();
     }
 }

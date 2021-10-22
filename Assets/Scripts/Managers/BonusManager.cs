@@ -8,14 +8,6 @@ using UnityEngine.UI;
 
 public class BonusManager : MonoBehaviour
 {
-
-    /*
-    5 različitih elemenata - donosi dodatnih 30 poena
-    2 ista + 3 ista ili 3 ista + 2 ista - donosi dodatnih 35 poena
-    5 istih elemenata - donosi dodatnih 40 poena
-    U svim ostalim slučajevima, polja se resetuju na prazna i korisnik ne dobija bonus.
-    */
-
     [BoxGroup("Slots")]
     [SerializeField]
     private List<Transform> _slots = new List<Transform>();
@@ -27,7 +19,6 @@ public class BonusManager : MonoBehaviour
     {
         SubscribeToActions();
         PopulateHelperSlotList();
-
     }
 
     private void SubscribeToActions()
@@ -66,7 +57,6 @@ public class BonusManager : MonoBehaviour
 
     private void CalculateBonus()
     {
-        int bonus = 0;
         States.ItemType currentType = new States.ItemType();
         Dictionary<States.ItemType, int> dictionary = new Dictionary<States.ItemType, int>();
 

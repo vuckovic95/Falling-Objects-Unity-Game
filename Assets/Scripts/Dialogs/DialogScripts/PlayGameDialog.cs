@@ -50,6 +50,7 @@ public class PlayGameDialog : DialogBase
     {
         Actions.TimerChangedAction += UpdateTime;
         Actions.IncreaseScoreAction += UpdateScore;
+        Actions.BonusPickedAction += TurnOnBonusPanel;
     }
 
     private void PauseClicked()
@@ -84,8 +85,47 @@ public class PlayGameDialog : DialogBase
         _scoreTxt.text = score.ToString();
     }
 
+    private void TurnOnBonusPanel(int bonus)
+    {
+        Vector2 start = new Vector2(-Screen.width, Screen.height / 4);
+        Vector2 end = new Vector2(-Screen.width / 3, Screen.height / 4);
+
+        _bonusPanel.SetActive(true);
+
+        StartCoroutine(LerpV2Position(_bonusPanel.GetComponent<RectTransform>(), start, end, .2f, () =>
+        {
+            StartCoroutine(WaitForSeconds(1f, () =>
+            {
+                StartCoroutine(LerpV2Position(_bonusPanel.GetComponent<RectTransform>(), end, start, .2f, () => { _bonusPanel.SetActive(false); }));
+            }));
+        }));
+    }
+
     public override void OnDialogOpened(ParameterSet parameters)
     {
 
+    }
+
+    private IEnumerator LerpV2Position(RectTransform tr, Vector2 start, Vector2 end, float time, Action action = null)
+    {
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            Vector2 x = Vector2.Lerp(start, end, t);
+            tr.localPosition = x;
+
+            t += Time.deltaTime / time;
+            yield return new WaitForEndOfFrame();
+        }
+        tr.localPosition = end;
+
+        action?.Invoke();
+    }
+
+    private IEnumerator WaitForSeconds(float time, Action action)
+    {
+        yield return new WaitForSeconds(time);
+        action();
     }
 }

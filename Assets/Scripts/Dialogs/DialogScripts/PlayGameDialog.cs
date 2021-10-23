@@ -89,6 +89,7 @@ public class PlayGameDialog : DialogBase
     {
         Vector2 start = new Vector2(-Screen.width, Screen.height / 4);
         Vector2 end = new Vector2(-Screen.width / 3, Screen.height / 4);
+        _bonusTxt.text = bonus.ToString();
 
         _bonusPanel.SetActive(true);
 

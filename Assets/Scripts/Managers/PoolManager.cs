@@ -3,6 +3,12 @@ using NaughtyAttributes;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Pool manager je mozda najmocnija stvar za izradu mobile video igara, pa i igara uopsteno. Umesto da stalno unistavamo i instanciramo objekte i time opterecujemo procesor, mi pri inicijalizaciji 
+/// aplikacije kreiramo veci broj objekata i stavljamo ih u Queue. Zatim po potrebi uzimamo objekat i radimo sa njim. Nakon upotrebe, umesto da ga unistimo, mi ga ugasimo i time omogucimo da taj isti
+/// objekat koristimo opet kad bude potrebno
+/// Prednost ovoga je sto manje opterecujemo procesor i znacajno utice na optimizaciju same igre, jer odmah u startu kreiramo sve sto nam treba i zatim samo palimo i gasimo.
+/// </summary>
 [Serializable]
 public class PoolInfo
 {

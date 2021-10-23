@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
+/// <summary>
+/// Skripta koja mi sluzi kao kontejner za sve Coroutine koje su mi bile preko potrebne za izradu igara
+/// </summary>
 public class Coroutines : MonoBehaviour
 {
     //Do action after some time 

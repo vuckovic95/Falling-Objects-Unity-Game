@@ -171,7 +171,7 @@ public class ItemGenerator : MonoBehaviour
     private IEnumerator Timer(float time)
     {
         float t = 0;
-        while (t < time)
+        while (t < time && Time.timeScale is 1)
         {
             t += Time.deltaTime;
             SpawnItemAction?.Invoke();

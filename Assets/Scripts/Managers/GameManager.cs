@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [Inject]
     DataManager _dataManager;
 
+    private string ENTRY_SCENE = "EntryScene";
+
     private void Awake()
     {
         SetAppSettings();
@@ -30,10 +32,12 @@ public class GameManager : MonoBehaviour
 
     private void GameCompleted()
     {
+        MMVibrationManager.Haptic(HapticTypes.Success);
         ParameterSet parameters = new ParameterSet();
         parameters.Add("Score", _dataManager.GetScore);
         parameters.Add("HighScore", _dataManager.GetHighScore);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        StopAllCoroutines();
 
         _dialogService.OpenDialog<GameFinishedDialog>(parameters, GameFinishedDialogCloseCallback);
     }
@@ -41,7 +45,7 @@ public class GameManager : MonoBehaviour
     private void GameFinishedDialogCloseCallback(DialogResult result, ParameterSet parameters)
     {
         if (result is DialogResult.Quit)
-            Actions.QuitGameAction?.Invoke();
+            Actions.ChangeSceneAction?.Invoke(0);
         else if (result is DialogResult.Retry)
             Actions.StartGameAction?.Invoke();
     }

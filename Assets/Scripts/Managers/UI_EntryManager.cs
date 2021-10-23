@@ -1,18 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Zenject;
 
 public class UI_EntryManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Inject]
+    DataManager _dataManager;
+    [Inject]
+    SceneSwitcher _sceneSwitcher;
+
+    [SerializeField]
+    private Button _playBtn;
+
+    [SerializeField]
+    private Transform _highScorePanel;
+    [SerializeField]
+    private TextMeshProUGUI _highScoreTxt;
+
+    private string GAMEPLAY_SCENE = "GamePlayScene";
+    private int _score;
+
     void Start()
     {
-        
+        _playBtn.onClick.AddListener(() => { Actions.ChangeSceneAction?.Invoke(1);});
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        SetHighScore();
+    }
+
+    private void SetHighScore()
+    {
+        _score = PlayerPrefs.GetInt("HighScore");
+
+        if (_score == 0)
+            _highScorePanel.gameObject.SetActive(false);
+        else
+            _highScoreTxt.text = _score.ToString();
     }
 }

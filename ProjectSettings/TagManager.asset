@@ -8,6 +8,8 @@ TagManager:
   - asteroid
   - Fire
   - Item
+  - LeftArrow
+  - RightArrow
   layers:
   - Default
   - TransparentFX

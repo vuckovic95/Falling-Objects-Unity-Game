@@ -15,7 +15,6 @@ public class TimeManager : MonoBehaviour
     void Start()
     {
         SubscribeToActions();
-
         //privremeno
         StartTimer();
     }
@@ -23,11 +22,12 @@ public class TimeManager : MonoBehaviour
     private void SubscribeToActions()
     {
         Actions.StartGameAction += StartTimer;
+        Actions.TimeIsUpAction += () => { StopAllCoroutines(); };
     }
 
     public void StartTimer()
     {
-        StartCoroutine(Timer(120, () => Actions.TimeIsUpAction?.Invoke()));
+        StartCoroutine(Timer(10, () => Actions.TimeIsUpAction?.Invoke()));
     }
 
     private IEnumerator Timer(float time, Action action = null)

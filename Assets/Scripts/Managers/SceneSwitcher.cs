@@ -15,8 +15,8 @@ public class SceneSwitcher : MonoBehaviour
         Actions.ChangeSceneAction += SwitchScene;
     }
 
-    private void SwitchScene(string sceneName)
+    private void SwitchScene(int level)
     {
-        SceneManager.LoadScene(sceneName: sceneName);
+        Application.LoadLevel(level);
     }
 }

@@ -1,14 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using NaughtyAttributes;
-using UnityStandardAssets.CrossPlatformInput;
+using Zenject;
+using MoreMountains.NiceVibrations;
 
 public class ChestController : MonoBehaviour
 {
     [BoxGroup("Speed")]
     [SerializeField]
     private float _speed;
+
+    [BoxGroup("Arrows")]
+    [SerializeField]
+    private Arrow _leftArrow;
+    [BoxGroup("Arrows")]
+    [SerializeField]
+    private Arrow _rightArrow;
 
     private Transform _transform;
     private int _leftBoundarie;
@@ -52,34 +58,75 @@ public class ChestController : MonoBehaviour
                         break;
                 }
 
-                if (_transform.position.x > _rightBoundarie)
+                if (_transform.localPosition.x > _rightBoundarie)
                 {
-                    _transform.position = new Vector3(_rightBoundarie, _transform.position.y, _transform.position.z);
+                    _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
                 }
-                if (_transform.position.x <= _leftBoundarie)
+                if (_transform.localPosition.x <= _leftBoundarie)
                 {
-                    _transform.position = new Vector3(_leftBoundarie, _transform.position.y, _transform.position.z);
+                    _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
                 }
             }
+
+        if (_leftArrow.HasClicked && !_rightArrow.HasClicked)
+        {
+            _transform.Translate(-_speed * Time.deltaTime * 300, 0, 0);
+            if (_transform.localPosition.x > _rightBoundarie)
+            {
+                _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
+            }
+            if (_transform.localPosition.x <= _leftBoundarie)
+            {
+                _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
+            }
+        }
+        else if (!_leftArrow.HasClicked && _rightArrow.HasClicked)
+        {
+            _transform.Translate(_speed * Time.deltaTime * 300, 0, 0);
+            if (_transform.localPosition.x > _rightBoundarie)
+            {
+                _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
+            }
+            if (_transform.localPosition.x <= _leftBoundarie)
+            {
+                _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
+            }
+        }
 #endif
 
 
 #if UNITY_EDITOR
-        _transform.Translate(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, 0, 0);
-        if (_transform.localPosition.x > _rightBoundarie)
+
+        if (_leftArrow.HasClicked && !_rightArrow.HasClicked)
         {
-            _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
+            _transform.Translate(-_speed * Time.deltaTime * 300, 0, 0);
+            if (_transform.localPosition.x > _rightBoundarie)
+            {
+                _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
+            }
+            if (_transform.localPosition.x <= _leftBoundarie)
+            {
+                _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
+            }
         }
-        if (_transform.localPosition.x <= _leftBoundarie)
+        else if(!_leftArrow.HasClicked && _rightArrow.HasClicked)
         {
-            _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
+            _transform.Translate(_speed * Time.deltaTime * 300, 0, 0);
+            if (_transform.localPosition.x > _rightBoundarie)
+            {
+                _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
+            }
+            if (_transform.localPosition.x <= _leftBoundarie)
+            {
+                _transform.localPosition = new Vector3(_leftBoundarie, _transform.localPosition.y, 0);
+            }
         }
 #endif
     }
 
     private void MoveRightOnArrows()
     {
-        _transform.Translate(CrossPlatformInputManager.GetAxis("Horizontal") * _speed * Time.deltaTime, 0, 0);
+        _transform.Translate(_speed * Time.deltaTime * 100, 0, 0);
         if (_transform.localPosition.x > _rightBoundarie)
         {
             _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -91,7 +138,7 @@ public class ChestController : MonoBehaviour
     }
     private void MoveLeftOnArrows()
     {
-        _transform.Translate(-_speed * Time.deltaTime, 0, 0);
+        _transform.Translate(-_speed * Time.deltaTime * 100, 0, 0);
         if (_transform.localPosition.x > _rightBoundarie)
         {
             _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -107,6 +154,7 @@ public class ChestController : MonoBehaviour
     {
         if (collision.CompareTag("Item"))
         {
+            MMVibrationManager.Haptic(HapticTypes.MediumImpact);
             Item itemComponent = collision.GetComponent<Item>();
 
             Actions.ItemPickedAction?.Invoke(itemComponent);

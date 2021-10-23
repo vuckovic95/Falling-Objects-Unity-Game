@@ -17,5 +17,5 @@ public static class Actions
     public static Action NewHighScoreAction;
     public static Action<int> IncreaseScoreAction;
     public static Action<int> BonusPickedAction;
-    public static Action<string> ChangeSceneAction;
+    public static Action<int> ChangeSceneAction;
 }

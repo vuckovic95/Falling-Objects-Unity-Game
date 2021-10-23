@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class DialogService : MonoBehaviour
 {
-
     [SerializeField] 
     Transform _parent;
 
@@ -15,7 +14,6 @@ public class DialogService : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(_parent);
         PopulateDialogs();
 
         ParameterSet set = new ParameterSet();

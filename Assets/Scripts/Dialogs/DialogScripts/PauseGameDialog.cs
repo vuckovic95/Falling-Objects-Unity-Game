@@ -19,9 +19,6 @@ public class PauseGameDialog : DialogBase
     [SerializeField]
     private Button _quitBtn;
 
-    private string ENTRY_SCENE = "EntryScene";
-    private string GAMEPLAY_SCENE = "GamePlayScene";
-
     private void Start()
     {
         _continueBtn.onClick.AddListener(() => CloseDialog(DialogResult.Continue, null));

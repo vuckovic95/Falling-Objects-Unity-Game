@@ -10,14 +10,16 @@ public class BonusManager : MonoBehaviour
 {
     [BoxGroup("Slots")]
     [SerializeField]
-    private List<Transform> _slots = new List<Transform>();
+    private Transform _slotsHolder;
 
+    private List<GameObject> _slots = new List<GameObject>();
     private List<Transform> _slotsHelperList = new List<Transform>();
     private List<States.ItemType> _pickedItemTypes = new List<States.ItemType>();
     
     private void Start()
     {
         SubscribeToActions();
+        PopulateSlots();
         PopulateHelperSlotList();
     }
 
@@ -26,10 +28,9 @@ public class BonusManager : MonoBehaviour
         Actions.ItemPickedAction += AddItemToSlot;
         Actions.StartGameAction += PopulateHelperSlotList;
     }
-
     private void AddItemToSlot(Item item)
     {
-        if(_slotsHelperList.Count > 0)
+       if(_slotsHelperList.Count > 0)
         {
             _slotsHelperList[0].GetChild(0).GetComponent<Image>().sprite = item.Object.ItemSprite;
             _slotsHelperList[0].GetChild(0).GetComponent<Image>().color = new Color(_slotsHelperList[0].GetChild(0).GetComponent<Image>().color.r, _slotsHelperList[0].GetChild(0).GetComponent<Image>().color.g, _slotsHelperList[0].GetChild(0).GetComponent<Image>().color.b, 1);
@@ -43,15 +44,24 @@ public class BonusManager : MonoBehaviour
         }
     }
 
+    private void PopulateSlots()
+    {
+        _slots.Clear();
+        foreach (Transform slot in _slotsHolder)
+        {
+            _slots.Add(slot.gameObject);
+        }
+    }
+
     private void PopulateHelperSlotList()
     {
         _slotsHelperList.Clear();
         _pickedItemTypes.Clear();
 
-        foreach (Transform slot in _slots)
+        foreach (GameObject slot in _slots)
         {
-            _slotsHelperList.Add(slot);
-            slot.GetChild(0).GetComponent<Image>().color = new Color(slot.GetChild(0).GetComponent<Image>().color.r, slot.GetChild(0).GetComponent<Image>().color.g, slot.GetChild(0).GetComponent<Image>().color.b, 0);
+            _slotsHelperList.Add(slot.transform);
+            slot.transform.GetChild(0).GetComponent<Image>().color = new Color(slot.transform.GetChild(0).GetComponent<Image>().color.r, slot.transform.GetChild(0).GetComponent<Image>().color.g, slot.transform.GetChild(0).GetComponent<Image>().color.b, 0);
         }
     }
 

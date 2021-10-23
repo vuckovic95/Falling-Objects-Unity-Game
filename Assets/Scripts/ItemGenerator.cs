@@ -56,7 +56,7 @@ public class ItemGenerator : MonoBehaviour
         SpawnElementSpawners();
         PopulateItemsAndSetIntoTheHolder();
         SubscribeToActions();
-        StartSpawning(); // brisemo
+        StartSpawning();
     }
 
     private void SubscribeToActions()
@@ -66,6 +66,7 @@ public class ItemGenerator : MonoBehaviour
         SpawnItemAction += SpawnItem;
         Actions.DecreaseCreationDelayFactorAction += DecreaseDelayCreationFactor;
         Actions.IncreaseSpeedFactorAction += IncreaseSpeedFactor;
+        Actions.TimeIsUpAction += () => { StopAllCoroutines(); };
     }
 
     private void PopulateElementSpawners()
@@ -171,7 +172,7 @@ public class ItemGenerator : MonoBehaviour
     private IEnumerator Timer(float time)
     {
         float t = 0;
-        while (t < time && Time.timeScale is 1)
+        while (t < time)
         {
             t += Time.deltaTime;
             SpawnItemAction?.Invoke();

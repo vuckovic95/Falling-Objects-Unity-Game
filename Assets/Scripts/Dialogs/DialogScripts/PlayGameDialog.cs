@@ -38,6 +38,7 @@ public class PlayGameDialog : DialogBase
     [SerializeField]
     private Button _leftArrow;
 
+    private string ENTRY_SCENE = "EntryScene";
 
     private void Start()
     {
@@ -70,7 +71,7 @@ public class PlayGameDialog : DialogBase
     {
         if(result is DialogResult.Quit)
         {
-            Actions.QuitGameAction?.Invoke();
+            Actions.ChangeSceneAction?.Invoke(0);
         }
         PauseClicked();
     }

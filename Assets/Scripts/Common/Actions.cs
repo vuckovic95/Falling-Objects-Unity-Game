@@ -10,8 +10,6 @@ public static class Actions
     public static Action TimeIsUpAction;
     public static Action<int> TimerChangedAction;
     public static Action<Item> ItemPickedAction;
-    public static Action HoldLeftArrowAction;
-    public static Action HoldRightArrowAction;
     public static Action DecreaseCreationDelayFactorAction;
     public static Action IncreaseSpeedFactorAction;
     public static Action NewHighScoreAction;

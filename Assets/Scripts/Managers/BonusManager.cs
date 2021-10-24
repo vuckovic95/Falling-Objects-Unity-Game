@@ -15,6 +15,10 @@ public class BonusManager : MonoBehaviour
     private List<GameObject> _slots = new List<GameObject>();
     private List<Transform> _slotsHelperList = new List<Transform>();
     private List<States.ItemType> _pickedItemTypes = new List<States.ItemType>();
+
+    private int ALL_SAME = 40;
+    private int ALL_DIFFERENT = 30;
+    private int TWO_OR_THREE = 35;
     
     private void Start()
     {
@@ -117,11 +121,11 @@ public class BonusManager : MonoBehaviour
 
         //svi su isti
         if(dictionary.Count == 1)
-            Actions.BonusPickedAction?.Invoke(40);
+            Actions.BonusPickedAction?.Invoke(ALL_SAME);
 
         //svi su razliciti
         else if(dictionary.Count == 5)
-            Actions.BonusPickedAction?.Invoke(30);
+            Actions.BonusPickedAction?.Invoke(ALL_DIFFERENT);
 
         //2 i 3 ili 3 i 2
         else if(dictionary.Count == 2)
@@ -133,7 +137,7 @@ public class BonusManager : MonoBehaviour
                     counter++;
             }
             if(counter == 2)
-                Actions.BonusPickedAction?.Invoke(35);
+                Actions.BonusPickedAction?.Invoke(TWO_OR_THREE);
         }
 
         PopulateHelperSlotList();

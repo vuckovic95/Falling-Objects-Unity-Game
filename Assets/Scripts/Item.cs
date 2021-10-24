@@ -10,9 +10,11 @@ public class Item : MonoBehaviour
     private float _speed;
     private bool _canMove;
     private Transform _transform;
+    private float _startSpeed;
 
     private void Start()
     {
+        _startSpeed = _speed;
         SubscribeToActions();
     }
 
@@ -32,11 +34,18 @@ public class Item : MonoBehaviour
     private void SubscribeToActions()
     {
         Actions.TimeIsUpAction += () => { _canMove = false; };
+        Actions.StartGameAction += ResetSpeed;
     }
 
     private void UnSubscribeToActions()
     {
         Actions.TimeIsUpAction -= () => { _canMove = false; };
+        Actions.StartGameAction -= ResetSpeed;
+    }
+
+    private void ResetSpeed()
+    {
+        _speed = _startSpeed;
     }
 
     public void SetProperties()

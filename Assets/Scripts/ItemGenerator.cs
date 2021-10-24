@@ -188,17 +188,19 @@ public class ItemGenerator : MonoBehaviour
     private IEnumerator Timer(float time)
     {
         float t = 0;
+        float delay = 0;
         while (t < time)
         {
             t += Time.deltaTime;
             SpawnItemAction?.Invoke();
-            float delay = UnityEngine.Random.Range(_minDelay, _maxDelay);
+            delay = UnityEngine.Random.Range(_minDelay, _maxDelay);
             yield return new WaitForSeconds(delay * _creationDelayFactor);
         }
     }
 
     private void StartSpawning()
     {
+        StopAllCoroutines();
         _creationDelayFactor = 1;
         _speedFactor = 1;
 

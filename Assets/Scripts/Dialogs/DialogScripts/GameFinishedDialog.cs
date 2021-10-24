@@ -48,7 +48,7 @@ public class GameFinishedDialog : DialogBase
 
     private void SetStartAndEndGirlPositions()
     {
-        _endGirlPosition = new Vector3(-Screen.width / 3, -Screen.height / 2, -9000);
+        _endGirlPosition = new Vector3(-Screen.width / 3, -Screen.height / 1.5f, -9000);
         _startGirlPosition = new Vector3(-Screen.width / 3, -Screen.height, -9000);
     }
 

@@ -22,9 +22,21 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SubscribeToActions();
+        Actions.StartGameAction?.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
     }
 
     private void SubscribeToActions()
+    {
+        Actions.TimeIsUpAction += GameCompleted;
+        Actions.StartGameAction += () => { Time.timeScale = 1; };
+    }
+
+    private void UnSubscribeToActions()
     {
         Actions.TimeIsUpAction += GameCompleted;
         Actions.StartGameAction += () => { Time.timeScale = 1; };
@@ -36,8 +48,6 @@ public class GameManager : MonoBehaviour
         ParameterSet parameters = new ParameterSet();
         parameters.Add("Score", _dataManager.GetScore);
         parameters.Add("HighScore", _dataManager.GetHighScore);
-        //Time.timeScale = 0;
-        StopAllCoroutines();
 
         _dialogService.OpenDialog<GameFinishedDialog>(parameters, GameFinishedDialogCloseCallback);
     }

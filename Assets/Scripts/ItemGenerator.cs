@@ -56,17 +56,33 @@ public class ItemGenerator : MonoBehaviour
         SpawnElementSpawners();
         PopulateItemsAndSetIntoTheHolder();
         SubscribeToActions();
-        StartSpawning();
+    }
+
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
     }
 
     private void SubscribeToActions()
     {
         Actions.StartGameAction += ResetAllItems;
         Actions.StartGameAction += StartSpawning;
+        Actions.TimeIsUpAction += ResetFactors;
         SpawnItemAction += SpawnItem;
         Actions.DecreaseCreationDelayFactorAction += DecreaseDelayCreationFactor;
         Actions.IncreaseSpeedFactorAction += IncreaseSpeedFactor;
-        Actions.TimeIsUpAction += () => { StopAllCoroutines(); };
+        //Actions.TimeIsUpAction += () => { StopAllCoroutines(); };
+    }
+
+    private void UnSubscribeToActions()
+    {
+        Actions.StartGameAction -= ResetAllItems;
+        Actions.StartGameAction -= StartSpawning;
+        Actions.TimeIsUpAction -= ResetFactors;
+        SpawnItemAction -= SpawnItem;
+        Actions.DecreaseCreationDelayFactorAction -= DecreaseDelayCreationFactor;
+        Actions.IncreaseSpeedFactorAction -= IncreaseSpeedFactor;
+        //Actions.TimeIsUpAction -= () => { StopAllCoroutines(); };
     }
 
     private void PopulateElementSpawners()
@@ -187,6 +203,12 @@ public class ItemGenerator : MonoBehaviour
         _speedFactor = 1;
 
         StartCoroutine(Timer(120));
+    }
+
+    private void ResetFactors()
+    {
+        _creationDelayFactor = 1;
+        _speedFactor = 1;
     }
 
     private void SetItemSpeed(Item item)

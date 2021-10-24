@@ -20,6 +20,11 @@ public class DialogService : MonoBehaviour
         OpenDialog<PlayGameDialog>(set, null);
     }
 
+    private void OnDestroy()
+    {
+        _dialogs.Clear();
+    }
+
     public void OpenDialog<T>(ParameterSet parameters, Action<DialogResult, ParameterSet> callback) where T : DialogBase
     {
         if (_dialogs.ContainsKey(typeof(T)))

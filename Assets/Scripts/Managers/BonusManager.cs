@@ -23,11 +23,23 @@ public class BonusManager : MonoBehaviour
         PopulateHelperSlotList();
     }
 
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
+    }
+
     private void SubscribeToActions()
     {
         Actions.ItemPickedAction += AddItemToSlot;
         Actions.StartGameAction += PopulateHelperSlotList;
     }
+
+    private void UnSubscribeToActions()
+    {
+        Actions.ItemPickedAction -= AddItemToSlot;
+        Actions.StartGameAction -= PopulateHelperSlotList;
+    }
+
     private void AddItemToSlot(Item item)
     {
        if(_slotsHelperList.Count > 0)
@@ -47,6 +59,7 @@ public class BonusManager : MonoBehaviour
     private void PopulateSlots()
     {
         _slots.Clear();
+
         foreach (Transform slot in _slotsHolder)
         {
             _slots.Add(slot.gameObject);
@@ -70,6 +83,11 @@ public class BonusManager : MonoBehaviour
         States.ItemType currentType = new States.ItemType();
         Dictionary<States.ItemType, int> dictionary = new Dictionary<States.ItemType, int>();
 
+        //Prvi element dodamo u dictionary i stavimo mu inicijalnu vrednost na 1
+        //Za svaki ostali element proveravamo da li je jednak prethodnom.
+        //Ako jeste, povecamo mu kolicinu
+        //Ako nije, dodamo novi element u dictionary i dodamo inicijalnu kolicinu 1
+        //Tako cemo znati koliko razlicitih tipova itema imamo
         for (int i = 0; i < _pickedItemTypes.Count; i++)
         {
             if(i == 0)
@@ -91,6 +109,11 @@ public class BonusManager : MonoBehaviour
                 }
             }
         }
+
+        //Ako imamo samo jedan element u dictionary, znaci da su svi isti
+        //Ako 5 elemenata, znaci da su svi razliciti
+        //Na kraju sledi provera 2 i 3 ili 3 i 2 gde za svaki od dva elementa u dictionary prolazimo kroz foreach i samo ako mu je value 2 ili 3, povecavamo counter
+        //Sto nas dovodi do kraja, ako je counter 2, znaci da oba elementa u dictionary imaju 2 ili 3 vrednost
 
         //svi su isti
         if(dictionary.Count == 1)

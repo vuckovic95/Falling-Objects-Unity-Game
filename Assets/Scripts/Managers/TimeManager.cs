@@ -12,22 +12,29 @@ public class TimeManager : MonoBehaviour
     private int DECREASE_MODUO = 15;
     private int INCREASE_MODUO = 10;
 
-    void Start()
+    void Awake()
     {
         SubscribeToActions();
-        //privremeno
-        StartTimer();
+    }
+
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
     }
 
     private void SubscribeToActions()
     {
         Actions.StartGameAction += StartTimer;
-        Actions.TimeIsUpAction += () => { StopAllCoroutines(); };
+    }
+
+    private void UnSubscribeToActions()
+    {
+        Actions.StartGameAction -= StartTimer;
     }
 
     public void StartTimer()
     {
-        StartCoroutine(Timer(10, () => Actions.TimeIsUpAction?.Invoke()));
+        StartCoroutine(Timer(120, () => Actions.TimeIsUpAction?.Invoke()));
     }
 
     private IEnumerator Timer(float time, Action action = null)

@@ -23,12 +23,25 @@ public class DataManager : MonoBehaviour
         SubscribeToActions();
     }
 
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
+    }
+
     private void SubscribeToActions()
     {
         Actions.ItemPickedAction += IncreaseScoreOnItemPicked;
         Actions.StartGameAction += ResetScore;
         Actions.BonusPickedAction += IncreaseScoreOnBonusPicked;
         Actions.TimeIsUpAction += CheckIfIsHighScore;
+    }
+
+    private void UnSubscribeToActions()
+    {
+        Actions.ItemPickedAction -= IncreaseScoreOnItemPicked;
+        Actions.StartGameAction -= ResetScore;
+        Actions.BonusPickedAction -= IncreaseScoreOnBonusPicked;
+        Actions.TimeIsUpAction -= CheckIfIsHighScore;
     }
 
     private void SaveHighScore(int newHighScore)

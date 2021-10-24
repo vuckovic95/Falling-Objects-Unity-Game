@@ -46,12 +46,23 @@ public class PlayGameDialog : DialogBase
 
         _pauseBtn.onClick.AddListener(PauseClicked);
     }
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
+    }
 
     private void SubscribeToActions()
     {
         Actions.TimerChangedAction += UpdateTime;
         Actions.IncreaseScoreAction += UpdateScore;
         Actions.BonusPickedAction += TurnOnBonusPanel;
+    }
+
+    private void UnSubscribeToActions()
+    {
+        Actions.TimerChangedAction -= UpdateTime;
+        Actions.IncreaseScoreAction -= UpdateScore;
+        Actions.BonusPickedAction -= TurnOnBonusPanel;
     }
 
     private void PauseClicked()
@@ -105,7 +116,7 @@ public class PlayGameDialog : DialogBase
 
     public override void OnDialogOpened(ParameterSet parameters)
     {
-
+        // do nothing
     }
 
     private IEnumerator LerpV2Position(RectTransform tr, Vector2 start, Vector2 end, float time, Action action = null)

@@ -24,9 +24,19 @@ public class Item : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        UnSubscribeToActions();
+    }
+
     private void SubscribeToActions()
     {
         Actions.TimeIsUpAction += () => { _canMove = false; };
+    }
+
+    private void UnSubscribeToActions()
+    {
+        Actions.TimeIsUpAction -= () => { _canMove = false; };
     }
 
     public void SetProperties()

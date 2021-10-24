@@ -31,11 +31,23 @@ public class ChestController : MonoBehaviour
         _leftBoundarie = -(int)(Screen.width / RESOLUTION_FACTOR);
         
     }
+    private void OnDestroy()
+    {
+        UnsubscribeToActions();
+    }
 
     private void SubscribeToActions()
     {
+        Actions.StartGameAction += ResetPosition;
         Actions.HoldLeftArrowAction += MoveLeftOnArrows;
         Actions.HoldRightArrowAction += MoveRightOnArrows;
+    }
+
+    private void UnsubscribeToActions()
+    {
+        Actions.StartGameAction -= ResetPosition;
+        Actions.HoldLeftArrowAction -= MoveLeftOnArrows;
+        Actions.HoldRightArrowAction -= MoveRightOnArrows;
     }
 
     void Update()
@@ -70,7 +82,7 @@ public class ChestController : MonoBehaviour
 
         if (_leftArrow.HasClicked && !_rightArrow.HasClicked)
         {
-            _transform.Translate(-_speed * Time.deltaTime * 300, 0, 0);
+            _transform.Translate(-_speed * Time.deltaTime * 600, 0, 0);
             if (_transform.localPosition.x > _rightBoundarie)
             {
                 _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -82,7 +94,7 @@ public class ChestController : MonoBehaviour
         }
         else if (!_leftArrow.HasClicked && _rightArrow.HasClicked)
         {
-            _transform.Translate(_speed * Time.deltaTime * 300, 0, 0);
+            _transform.Translate(_speed * Time.deltaTime * 600, 0, 0);
             if (_transform.localPosition.x > _rightBoundarie)
             {
                 _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -99,7 +111,7 @@ public class ChestController : MonoBehaviour
 
         if (_leftArrow.HasClicked && !_rightArrow.HasClicked)
         {
-            _transform.Translate(-_speed * Time.deltaTime * 300, 0, 0);
+            _transform.Translate(-_speed * Time.deltaTime * 600, 0, 0);
             if (_transform.localPosition.x > _rightBoundarie)
             {
                 _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -111,7 +123,7 @@ public class ChestController : MonoBehaviour
         }
         else if(!_leftArrow.HasClicked && _rightArrow.HasClicked)
         {
-            _transform.Translate(_speed * Time.deltaTime * 300, 0, 0);
+            _transform.Translate(_speed * Time.deltaTime * 600, 0, 0);
             if (_transform.localPosition.x > _rightBoundarie)
             {
                 _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -126,7 +138,7 @@ public class ChestController : MonoBehaviour
 
     private void MoveRightOnArrows()
     {
-        _transform.Translate(_speed * Time.deltaTime * 100, 0, 0);
+        _transform.Translate(_speed * Time.deltaTime * 200, 0, 0);
         if (_transform.localPosition.x > _rightBoundarie)
         {
             _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -138,7 +150,7 @@ public class ChestController : MonoBehaviour
     }
     private void MoveLeftOnArrows()
     {
-        _transform.Translate(-_speed * Time.deltaTime * 100, 0, 0);
+        _transform.Translate(-_speed * Time.deltaTime * 200, 0, 0);
         if (_transform.localPosition.x > _rightBoundarie)
         {
             _transform.localPosition = new Vector3(_rightBoundarie, _transform.localPosition.y, 0);
@@ -162,5 +174,10 @@ public class ChestController : MonoBehaviour
             collision.gameObject.SetActive(false);
             itemComponent.CanMove = false;
         }
+    }
+
+    private void ResetPosition()
+    {
+        _transform.localPosition = new Vector3(0, _transform.localPosition.y, 0);
     }
 }
